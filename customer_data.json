@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1111002,
+        "balance": 1400,
+        "personal_details": {
+            "first_name": "Meghana",
+            "last_name": "Pasham",
+            "age": "29",
+            "country": "India",
+            "acc_type": "s"
+        }
+    },
+    {
+        "id": 1111004,
+        "balance": 600,
+        "personal_details": {
+            "first_name": "Sneha",
+            "last_name": "Pasham",
+            "age": "54",
+            "country": "India",
+            "acc_type": "c"
+        }
+    },
+    {
+        "id": 1111005,
+        "balance": 200,
+        "personal_details": {
+            "first_name": "Ranjith Kumar",
+            "last_name": "Putta",
+            "age": "34",
+            "country": "India",
+            "acc_type": "c"
+        }
+    },
+    {
+        "id": 1111006,
+        "balance": 500,
+        "personal_details": {
+            "first_name": "Rudransh",
+            "last_name": "Meghana",
+            "age": "7",
+            "country": "German",
+            "acc_type": "s"
+        }
+    }
+]
