@@ -1,17 +1,9 @@
-"""
-Create a new account and view account holders record.
-Withdraws and deposit amount with the balance inquiry.
-Closing an account and edit account details.
-User can create an account by providing the name of the account holder, number, etc.
-User can select the amount type (Saving or Current account).
-They can also provide an initial amount more than or equal to 500.
-He/She can modify their account detail and type if they want to.
-"""
 from customer import Customer
 from admin import Admin
 
 
 class Bank(Admin):
+    
     def menu_display(self):
 
         print("""
@@ -53,5 +45,4 @@ class Bank(Admin):
 
 bank_obj = Bank()
 bank_obj.Index()    
-    
     

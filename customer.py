@@ -20,34 +20,9 @@ class Customer:
             self.customer_id = 1111001  
         else:
             self.customer_id = self.jsonData[-1]['id']
+            print('customer id is ', self.customer_id)
 
-    """
-    def Index(self):
-
-        option = int(self.menu_display())
-        if True:
-            match option:
-                case 1:
-                    self.create_account()
-                case 2:
-                    self.check_balance()
-                case 3:
-                    self.withdraw()
-                case 4:
-                    self.deposit()
-                case 5:
-                    print('Please give your admin login credentials')
-                    self.admin_login()
-                case 6:
-                    print('Thank you for working with Max Banks')
-                    return 0                    
-                case _:
-                    print("Please select from the given options only")
-                    self.Index()
-            self.Index()
-        """
-
-                
+                 
     def acc_type_verification(self, account_type):
 
         if self.account_type == 'c':
@@ -63,26 +38,20 @@ class Customer:
         
         self.first_name = input(str("First Name:"))
         self.last_name = input(str("Last Name:"))
-        self.age = input("Age:")
-        if int(self.age) > 80 or int(self.age) < 18:
-            print('A person who is aged only above 18 or below 80 are allowed to create an account')
-            self.age = input("Age:")
-        elif isinstance(self.age,int):
-            print('Age can only be a number from 18 to 80')
-            self.age = input("Age:")
+        self.age = self.age_verification()
         self.country = input(str("Country: "))
         self.account_type = input(str("Account Type: Savings(s)/ Current(c): "))
         self.reply = self.acc_type_verification(self.account_type)
         if self.reply == 'Y':
-            self.balance = change_min_bal()
+            self.balance = self.change_min_bal(self.account_type)
         else:
-            print("Thank you. Your Account is created")
-            self.customer_id  += 1
             if self.account_type =='c':
                 self.balance = 200
             else:
                 self.balance = 500
-            print("your customer id is ", self.customer_id)
+        print("Thank you. Your Account is created")
+        self.customer_id  += 1
+        print("your customer id is ", self.customer_id)
 
         self.customer_dict = {
             "id" : int(self.customer_id),
@@ -99,26 +68,10 @@ class Customer:
         self.jsonData.append(self.customer_dict)
         with open("customer_data.json","w") as output_file:
             json.dump(self.jsonData,output_file,indent=4)
-        self.print_customer_details()
-
-        def change_min_bal():
-            initial_amt = input("Please enter the initial deposit amount: ")
-            if self.account_type == 'c' and int(initial_amt) >= 200:
-                bal = int(initial_amt)
-            elif self.account_type == 's' and int(initial_amt) >= 500:
-                bal = int(initial_amt)
-            else:
-                print('Please make sure the initial amount you give is more than the minimum initial balance')
-                change_min_bal()
-            return bal
-
+        self.print_customer_details()    
 
     def print_customer_details(self):
 
-        #with open("customer_data.json", "r") as read_file:
-        #    cust_data = json.load(read_file)
-        #    print(cust_data["id"])
- 
         if self.customer_dict["personal_details"]["acc_type"] == 'c':
             acc_type = 'Current Account' 
         else:
@@ -138,7 +91,6 @@ class Customer:
     def withdraw(self):
 
         data = self.get_details_CustomerID()
-        print(data)
         withdraw = input('Please enter the withdrawl amount: ')
         if int(withdraw) > data["balance"]:
             print("Insufficient Funds.")
@@ -178,3 +130,26 @@ class Customer:
                 self.jsonData[i]['personal_details']['acc_type'] = cust_data['personal_details']['acc_type']
         with open('customer_data.json','w') as file:
             json.dump(self.jsonData,file,indent=4)
+    
+    def age_verification(self):
+
+        while True:
+            try:
+                Age = input("Age:")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+
+            if int(Age) > 80 or int(Age) < 18:
+                print('A person who is aged only above 18 or below 80 are allowed to create an account')
+            else:
+                return Age
+    
+    def change_min_bal(self, acc_type):
+            initial_amt = input("Please enter the initial deposit amount: ")
+            if acc_type == 'c' and int(initial_amt) >= 200:
+                return int(initial_amt)
+            elif acc_type == 's' and int(initial_amt) >= 500:
+                return int(initial_amt)
+            else:
+                print('Please make sure the initial amount you give is more than the minimum initial balance')
+                self.change_min_bal(acc_type)

@@ -40,48 +40,48 @@ class Admin(Customer):
                     self.admin_menu()
     
     def admin_edit(self,cust_data):
-        
-        print("""
-        Choose what you want to edit
-        1. First Name
-        2. Last Name
-        3. Age
-        4. Country
-        5. Account type
-        6. Exit edit mode(save the customer details)
-        """)
-        editOption = input('')
-        if True:
-            match int(editOption):
-                case 1:
-                    print('Enter the new First name for Customer ID ', cust_data['id'])
-                    firstName_edit = input('')
-                    cust_data['personal_details']['first_name'] = firstName_edit
-                case 2:
-                    print('Enter the new Last name for Customer ID ', cust_data['id'])
-                    lastName_edit = input('')
-                    cust_data['personal_details']['last_name'] = lastName_edit
-                case 3:
-                    print('Enter the new age for Customer ID ', cust_data['id'])
-                    age_edit = input('')
-                    cust_data['personal_details']['age'] = age_edit
-                case 4:
-                    print('Enter the new country for Customer ID ', cust_data['id'])
-                    customer_edit = input('')
-                    cust_data['personal_details']['country'] = customer_edit
-                case 5:
-                    print('Enter the new account type for Customer ID ', cust_data['id'])
-                    accountType_edit = input('')
-                    cust_data['personal_details']['acc_type'] = accountType_edit
-                case 6:
-                    self.update_details_CustomerID(cust_data)
-                    print('You exited the Admin mode')
-                    self.Index()
-                    return 0                                
-                case _:
-                    print("Please select from the given options only")
-                    self.admin_menu()
-            self.admin_edit(cust_data)
+
+        options = {
+        1: ("First Name", "first_name"),
+        2: ("Last Name", "last_name"),
+        3: ("Age", "age"),
+        4: ("Country", "country"),
+        5: ("Account type", "acc_type"),
+        }
+     
+        while True:
+            print("""
+            Choose what you want to edit
+            1. First Name
+            2. Last Name
+            3. Age
+            4. Country
+            5. Account type
+            6. Exit edit mode(save the customer details)
+            """)
+            try:
+                editOption = int(input(''))
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+                continue
+
+            if editOption in options:
+                option_key, field_value = options[editOption]
+                if editOption == 3:
+                    print(f'For the customer ID {cust_data['id'] } new')
+                    value_change = self.age_verification()
+                else:
+                    value_change = input(f'Please enter the new {option_key} for customer ID {cust_data['id']}: ')
+
+                cust_data['personal_details'][field_value] = value_change
+
+            elif editOption == 6:
+                self.update_details_CustomerID(cust_data)
+                print('You exited the Admin mode')
+                return
+            else:
+                print("Please select from the given options only")
+                     
     
     def admin_delete(self):
         
