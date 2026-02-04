@@ -1,16 +1,5 @@
 [
     {
-        "id": 1111002,
-        "balance": 700,
-        "personal_details": {
-            "first_name": "Meghana",
-            "last_name": "Pasham",
-            "age": "22",
-            "country": "India",
-            "acc_type": "s"
-        }
-    },
-    {
         "id": 1111003,
         "balance": 1000,
         "personal_details": {
@@ -28,8 +17,30 @@
             "first_name": "Rudransh",
             "last_name": "Putta",
             "age": "20",
-            "country": "German",
+            "country": "pakistan",
+            "acc_type": "c"
+        }
+    },
+    {
+        "id": 1111005,
+        "balance": 500,
+        "personal_details": {
+            "first_name": "Meghana",
+            "last_name": "Rudransh",
+            "age": "22",
+            "country": "USA",
             "acc_type": "s"
+        }
+    },
+    {
+        "id": 1111006,
+        "balance": 3000,
+        "personal_details": {
+            "first_name": "Rudra",
+            "last_name": "Khan",
+            "age": "44",
+            "country": "Norway",
+            "acc_type": "c"
         }
     }
 ]

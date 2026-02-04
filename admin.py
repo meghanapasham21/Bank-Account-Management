@@ -22,8 +22,9 @@ class Admin(Customer):
         Please choose from the below options
         1. Edit Customer details
         2. Delete customer details
+        3. Exit Admin Mode
               """)
-        adminoption = input(' ')
+        adminoption = input("your option: ")
         if True:
             match int(adminoption):
                 case 1:
@@ -38,6 +39,7 @@ class Admin(Customer):
                 case _:
                     print("Please select from the given options only")
                     self.admin_menu()
+            self.admin_menu()
     
     def admin_edit(self,cust_data):
 
@@ -51,7 +53,7 @@ class Admin(Customer):
      
         while True:
             print("""
-            Choose what you want to edit
+            Choose what you want to edit for the Customer 
             1. First Name
             2. Last Name
             3. Age
@@ -60,7 +62,7 @@ class Admin(Customer):
             6. Exit edit mode(save the customer details)
             """)
             try:
-                editOption = int(input(''))
+                editOption = int(input("your option: "))
             except ValueError:
                 print("Invalid input. Please enter a number.")
                 continue
@@ -77,8 +79,7 @@ class Admin(Customer):
 
             elif editOption == 6:
                 self.update_details_CustomerID(cust_data)
-                print('You exited the Admin mode')
-                return
+                return 0
             else:
                 print("Please select from the given options only")
                      

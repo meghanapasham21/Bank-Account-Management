@@ -20,7 +20,6 @@ class Customer:
             self.customer_id = 1111001  
         else:
             self.customer_id = self.jsonData[-1]['id']
-            print('customer id is ', self.customer_id)
 
                  
     def acc_type_verification(self, account_type):
