@@ -20,20 +20,23 @@ class Admin(Customer):
 
         print("""
         Please choose from the below options
-        1. Edit Customer details
-        2. Delete customer details
-        3. Exit Admin Mode
+        1. View Customer details
+        2. Edit Customer details
+        3. Delete customer details
+        4. Exit Admin Mode
               """)
         adminoption = input("your option: ")
         if True:
             match int(adminoption):
                 case 1:
                     print('You can now edit the personal details of Customers')
+                    self.admin_view()
+                case 2:
                     cust_data = self.get_details_CustomerID()
                     self.admin_edit(cust_data)
-                case 2:
-                    self.admin_delete()
                 case 3:
+                    self.admin_delete()
+                case 4:
                     print('Exit the Admin Mode')
                     return 0 
                 case _:
@@ -96,7 +99,15 @@ class Admin(Customer):
                 print(cust_id,' ID Customer account is deleted')
                 return 0
         print("Given Customer ID is wrong.")
-        self.get_details_CustomerID()
+        self.admin_delete()
+    
+
+    def admin_view(self):
+
+        cust_id = self.get_details_CustomerID()
+        print(cust_id)
+        self.print_customer_details(cust_id)
+
         
 
 

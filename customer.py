@@ -5,7 +5,6 @@ class Customer:
 
     def __init__(self):
 
-        self.customer_dict = {}
         try:
             with open('customer_data.json','r') as file:
                 self.jsonData = json.load(file)
@@ -52,8 +51,8 @@ class Customer:
         self.customer_id  += 1
         print("your customer id is ", self.customer_id)
 
-        self.customer_dict = {
-            "id" : int(self.customer_id),
+        customer_dict = {
+            "id" : self.customer_id,
             "balance" : self.balance,
             "personal_details" : {
                 "first_name" : self.first_name,
@@ -64,21 +63,22 @@ class Customer:
             }
         }
 
-        self.jsonData.append(self.customer_dict)
+        self.jsonData.append(customer_dict)
         with open("customer_data.json","w") as output_file:
             json.dump(self.jsonData,output_file,indent=4)
-        self.print_customer_details()    
+            
+        self.print_customer_details(customer_dict)    
 
-    def print_customer_details(self):
+    def print_customer_details(self, cust_id):
 
-        if self.customer_dict["personal_details"]["acc_type"] == 'c':
+        if cust_id["personal_details"]["acc_type"] == 'c':
             acc_type = 'Current Account' 
         else:
             acc_type = 'Savings Account'
 
-        print('Customer id: ',self.customer_dict["id"],
-              '\nFirst name: ',self.customer_dict["personal_details"]["first_name"], 
-              '\nLast name: ',self.customer_dict["personal_details"]["last_name"], 
+        print('Customer id: ',cust_id["id"],
+              '\nFirst name: ',cust_id["personal_details"]["first_name"], 
+              '\nLast name: ',cust_id["personal_details"]["last_name"], 
               '\nAccount type: ',acc_type)
      
     def check_balance(self):
