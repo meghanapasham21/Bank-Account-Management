@@ -4,17 +4,26 @@ from json.decoder import JSONDecodeError
 class Customer:
 
     def __init__(self):
+        """
+        Loads customer data from JSON and initializes next customer ID.
+
+        :param self: Customer instance
+        """
 
         try:
             with open('customer_data.json','r') as file:
                 self.jsonData = json.load(file)
         except FileNotFoundError:
             print("File not found!")
+            self.jsonData = []         
         except JSONDecodeError:
             print("Invalid JSON format!")
+            self.jsonData = []
         except Exception as e:
             print(f"An error occurred: {str(e)}")
+            self.jsonData = []
         
+        # Set next customer ID
         if len(self.jsonData) == 0:
             self.customer_id = 1111001  
         else:
@@ -22,6 +31,13 @@ class Customer:
 
                  
     def acc_type_verification(self, account_type):
+        """
+        Asks user whether they want to add more than the minimum deposit.
+
+        :param self: Customer instance
+        :param account_type: 's' for savings, 'c' for current
+        :return: 'Y' or 'N' based on user input
+        """
 
         if self.account_type == 'c':
             self.reply = input(str("For Current Account the initial minimum deposit amount is 200.\nIf you want to add more amount, Please press Y. If not press N "))
@@ -32,13 +48,20 @@ class Customer:
             self.reply = 'N'
         return self.reply
 
-    def create_account(self):
-        
+    def create_account(self):        
+        """
+        Collects user details, creates a new account, and saves it to JSON.
+
+        :param self: Customer instance
+        """
+
         self.first_name = input(str("First Name:"))
         self.last_name = input(str("Last Name:"))
         self.age = self.age_verification()
         self.country = input(str("Country: "))
         self.account_type = input(str("Account Type: Savings(s)/ Current(c): "))
+
+        # Determine initial balance      
         self.reply = self.acc_type_verification(self.account_type)
         if self.reply == 'Y':
             self.balance = self.change_min_bal(self.account_type)
@@ -47,6 +70,8 @@ class Customer:
                 self.balance = 200
             else:
                 self.balance = 500
+
+        # Create customer record
         print("Thank you. Your Account is created")
         self.customer_id  += 1
         print("your customer id is ", self.customer_id)
@@ -63,6 +88,7 @@ class Customer:
             }
         }
 
+        # Save into customer_data.json file
         self.jsonData.append(customer_dict)
         with open("customer_data.json","w") as output_file:
             json.dump(self.jsonData,output_file,indent=4)
@@ -70,6 +96,12 @@ class Customer:
         self.print_customer_details(customer_dict)    
 
     def print_customer_details(self, cust_id):
+        """
+        Prints basic details of a newly created customer.
+
+        :param self: Customer instance
+        :param cust_id: Dictionary containing customer details
+        """
 
         if cust_id["personal_details"]["acc_type"] == 'c':
             acc_type = 'Current Account' 
@@ -82,24 +114,39 @@ class Customer:
               '\nAccount type: ',acc_type)
      
     def check_balance(self):
+        """
+        Retrieves customer data and displays their balance.
+
+        :param self: Customer instance
+        """
 
         data = self.get_details_CustomerID()
         print('Hello ',data["personal_details"]["first_name"],
               ' your Balance is: ', data['balance'])
         
     def withdraw(self):
+        """
+        Withdraws money from a customer's account if funds are sufficient.
+
+        :param self: Customer instance
+        """
 
         data = self.get_details_CustomerID()
         withdraw = input('Please enter the withdrawl amount: ')
         if int(withdraw) > data["balance"]:
             print("Insufficient Funds.")
-            self.Index()
-        else:
-            data["balance"] -= int(withdraw)
-            print(data["personal_details"]["first_name"],'your current balance is', data['balance'])
-            self.update_details_CustomerID(data)       
+            return 
+    
+        data["balance"] -= int(withdraw)
+        print(data["personal_details"]["first_name"],'your current balance is', data['balance'])
+        self.update_details_CustomerID(data)       
 
     def deposit(self):
+        """
+        Deposits money into a customer's account.
+
+        :param self: Customer instance
+        """
 
         data = self.get_details_CustomerID()
         deposit_amt = input('Please enter the deposit amount: ')
@@ -108,6 +155,12 @@ class Customer:
         self.update_details_CustomerID(data)
     
     def get_details_CustomerID(self):
+        """
+        Searches for and returns customer data by ID.
+
+        :param self: Customer instance
+        :return: Customer dictionary if found
+        """
 
         cust_id = input("Please enter the Customer ID: ")
 
@@ -118,6 +171,12 @@ class Customer:
         self.get_details_CustomerID()
     
     def update_details_CustomerID(self,cust_data):
+        """
+        Updates a customer's record in the JSON file.
+
+        :param self: Customer instance
+        :param cust_data: Updated customer dictionary
+        """
 
         for i in range(len(self.jsonData)):
             if int(self.jsonData[i]['id']) == cust_data['id']:
@@ -131,6 +190,12 @@ class Customer:
             json.dump(self.jsonData,file,indent=4)
     
     def age_verification(self):
+        """
+        Ensures the entered age is between 18 and 80.
+
+        :param self: Customer instance
+        :return: Valid age as string
+        """
 
         while True:
             try:
@@ -144,11 +209,19 @@ class Customer:
                 return Age
     
     def change_min_bal(self, acc_type):
-            initial_amt = input("Please enter the initial deposit amount: ")
-            if acc_type == 'c' and int(initial_amt) >= 200:
-                return int(initial_amt)
-            elif acc_type == 's' and int(initial_amt) >= 500:
-                return int(initial_amt)
-            else:
-                print('Please make sure the initial amount you give is more than the minimum initial balance')
-                self.change_min_bal(acc_type)
+        """
+        Validates that the initial deposit meets minimum requirements.
+
+        :param self: Customer instance
+        :param acc_type: 's' for savings, 'c' for current
+        :return: Valid initial deposit amount as integer
+        """
+                
+        initial_amt = input("Please enter the initial deposit amount: ")
+        if acc_type == 'c' and int(initial_amt) >= 200:
+            return int(initial_amt)
+        elif acc_type == 's' and int(initial_amt) >= 500:
+            return int(initial_amt)
+        else:
+            print('Please make sure the initial amount you give is more than the minimum initial balance')
+            self.change_min_bal(acc_type)

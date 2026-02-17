@@ -12,11 +12,11 @@
     },
     {
         "id": 1111004,
-        "balance": 2000,
+        "balance": 1600,
         "personal_details": {
-            "first_name": "Rudransh",
+            "first_name": "Gajini",
             "last_name": "Putta",
-            "age": "20",
+            "age": "22",
             "country": "pakistan",
             "acc_type": "c"
         }
@@ -41,6 +41,17 @@
             "age": "44",
             "country": "Norway",
             "acc_type": "c"
+        }
+    },
+    {
+        "id": 1111007,
+        "balance": 500,
+        "personal_details": {
+            "first_name": "Rani",
+            "last_name": "Pasham",
+            "age": "55",
+            "country": "India",
+            "acc_type": "S"
         }
     }
 ]
